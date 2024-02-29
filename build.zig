@@ -76,7 +76,6 @@ pub fn build(b: *std.Build) !void {
         });
         // fixme(0.12): addModule -> root_module.addImport(name, mod)
         exe.addModule("termsize", termsize_module);
-        exe.linkLibC();
 
         // run the artifact - depending on the example exe
         const example_run = b.addRunArtifact(exe);

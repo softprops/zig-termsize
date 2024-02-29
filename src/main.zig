@@ -60,3 +60,7 @@ pub fn termSize(fd: os.fd_t) !TermSize {
         else => error.Unsupported,
     };
 }
+
+test "termSize" {
+    std.debug.print("{any}", .{termSize(std.io.getStdOut().handle)});
+}
