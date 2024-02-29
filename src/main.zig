@@ -26,12 +26,15 @@ pub const TermSize = struct {
 ///   );
 /// }
 /// ```
-pub fn termSize(fd: os.fd_t) !TermSize {
+pub fn termSize(file: std.fs.File) !?TermSize {
+    if (!file.supportsAnsiEscapeCodes()) {
+        return null;
+    }
     return switch (builtin.os.tag) {
         .windows => blk: {
             var buf: os.windows.CONSOLE_SCREEN_BUFFER_INFO = undefined;
             break :blk switch (os.windows.kernel32.GetConsoleScreenBufferInfo(
-                fd,
+                file.handle,
                 &buf,
             )) {
                 os.windows.TRUE => TermSize{
@@ -45,7 +48,7 @@ pub fn termSize(fd: os.fd_t) !TermSize {
             var buf: os.system.winsize = undefined;
             break :blk switch (os.system.getErrno(
                 os.system.ioctl(
-                    fd,
+                    file.handle,
                     os.system.T.IOCGWINSZ,
                     @intFromPtr(&buf),
                 ),
@@ -62,5 +65,5 @@ pub fn termSize(fd: os.fd_t) !TermSize {
 }
 
 test "termSize" {
-    std.debug.print("{any}", .{termSize(std.io.getStdOut().handle)});
+    std.debug.print("{any}", .{termSize(std.io.getStdOut())});
 }
