@@ -8,7 +8,7 @@
 
 ---
 
-[![Main](https://github.com/softprops/zig-termsize/actions/workflows/main.yml/badge.svg)](https://github.com/softprops/zig-termsize/actions/workflows/main.yml) ![License Info](https://img.shields.io/github/license/softprops/zig-termsize) ![Release](https://img.shields.io/github/v/release/softprops/zig-termsize) [![Zig Support](https://img.shields.io/badge/zig-0.11.0-black?logo=zig)](https://ziglang.org/documentation/0.11.0/)
+[![CI](https://github.com/softprops/zig-termsize/actions/workflows/ci.yml/badge.svg)](https://github.com/softprops/zig-termsize/actions/workflows/ci.yml) ![License Info](https://img.shields.io/github/license/softprops/zig-termsize) ![Release](https://img.shields.io/github/v/release/softprops/zig-termsize) [![Zig Support](https://img.shields.io/badge/zig-0.11.0-black?logo=zig)](https://ziglang.org/documentation/0.11.0/)
 
 ## 🍬 features
 
