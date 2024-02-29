@@ -22,7 +22,7 @@ pub const TermSize = struct {
 /// fn main() !void {
 ///   std.debug.print(
 ///     "{any}",
-///     termSize.termSize(std.os.getStdOut().handle),
+///     termSize.termSize(std.os.getStdOut()),
 ///   );
 /// }
 /// ```
