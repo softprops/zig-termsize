@@ -21,7 +21,7 @@ const std = @import("std");
 const termsize = @import("termsize");
 
 pub fn main() !void {
-    std.ebug.println("{any}", .{ termsize.termSize(std.io.getStdOut().handle) });
+    std.debug.println("{any}", .{ termsize.termSize(std.io.getStdOut().handle) });
 }
 ```
 
