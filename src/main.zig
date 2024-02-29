@@ -35,8 +35,8 @@ pub fn termSize(fd: os.fd_t) !TermSize {
                 &buf,
             )) {
                 os.windows.TRUE => TermSize{
-                    .width = buf.srWindow.Right - buf.srWindow.Left + 1,
-                    .height = buf.srWindow.Bottom - buf.srWindow.Top + 1,
+                    .width = @intCast(buf.srWindow.Right - buf.srWindow.Left + 1),
+                    .height = @intCast(buf.srWindow.Bottom - buf.srWindow.Top + 1),
                 },
                 else => error.Unexpected,
             };
