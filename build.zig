@@ -76,11 +76,11 @@ pub fn build(b: *std.Build) !void {
         });
         // fixme(0.12): addModule -> root_module.addImport(name, mod)
         exe.addModule("termsize", termsize_module);
+        exe.linkLibC();
 
         // run the artifact - depending on the example exe
         const example_run = b.addRunArtifact(exe);
         example_run_step.dependOn(&example_run.step);
-
         // install the artifact - depending on the example exe
         const example_build_step = b.addInstallArtifact(exe, .{});
         example_step.dependOn(&example_build_step.step);
