@@ -43,8 +43,8 @@ pub fn termSize(fd: os.fd_t) !TermSize {
         },
         .linux, .macos => blk: {
             var buf: os.system.winsize = undefined;
-            break :blk switch (os.errno(
-                std.c.ioctl(
+            break :blk switch (os.system.getErrno(
+                os.system.ioctl(
                     fd,
                     os.system.T.IOCGWINSZ,
                     @intFromPtr(&buf),
