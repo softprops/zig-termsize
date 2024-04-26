@@ -8,7 +8,7 @@
 
 ---
 
-[![CI](https://github.com/softprops/zig-termsize/actions/workflows/ci.yml/badge.svg)](https://github.com/softprops/zig-termsize/actions/workflows/ci.yml) ![License Info](https://img.shields.io/github/license/softprops/zig-termsize) ![Release](https://img.shields.io/github/v/release/softprops/zig-termsize) [![Zig Support](https://img.shields.io/badge/zig-0.11.0-black?logo=zig)](https://ziglang.org/documentation/0.11.0/)
+[![CI](https://github.com/softprops/zig-termsize/actions/workflows/ci.yml/badge.svg)](https://github.com/softprops/zig-termsize/actions/workflows/ci.yml) ![License Info](https://img.shields.io/github/license/softprops/zig-termsize) ![Release](https://img.shields.io/github/v/release/softprops/zig-termsize) [![Zig Support](https://img.shields.io/badge/zig-0.12.0-black?logo=zig)](https://ziglang.org/documentation/0.12.0/)
 
 ## 🍬 features
 
@@ -33,18 +33,26 @@ Create a `build.zig.zon` file to declare a dependency
 
 > .zon short for "zig object notation" files are essentially zig structs. `build.zig.zon` is zigs native package manager convention for where to declare dependencies
 
-```zig
+Starting in zig 0.12.0, you can use and should prefer
+
+```sh
+zig fetch --save https://github.com/softprops/zig-termsize/archive/refs/tags/v0.1.0.tar.gz
+```
+
+otherwise, to manually add it, do so as follows
+
+```diff
 .{
     .name = "my-app",
     .version = "0.1.0",
     .dependencies = .{
-        // 👇 declare dep properties
-        .termsize = .{
-            // 👇 uri to download
-            .url = "https://github.com/softprops/zig-termsize/archive/refs/tags/v0.1.0.tar.gz",
-            // 👇 hash verification
-            .hash = "{current-hash}",
-        },
++        // 👇 declare dep properties
++        .termsize = .{
++            // 👇 uri to download
++            .url = "https://github.com/softprops/zig-termsize/archive/refs/tags/v0.1.0.tar.gz",
++            // 👇 hash verification
++            .hash = "{current-hash}",
++        },
     },
 }
 ```
@@ -53,26 +61,26 @@ Create a `build.zig.zon` file to declare a dependency
 
 Add the following in your `build.zig` file
 
-```zig
+```diff
 const std = @import("std");
 
 pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
 
     const optimize = b.standardOptimizeOption(.{});
-    // 👇 de-reference termsize dep from build.zig.zon
-    const termsize = b.dependency("termsize", .{
-        .target = target,
-        .optimize = optimize,
-    });
++    // 👇 de-reference termsize dep from build.zig.zon
++    const termsize = b.dependency("termsize", .{
++        .target = target,
++        .optimize = optimize,
++    }).module("termsize");
     var exe = b.addExecutable(.{
         .name = "your-exe",
         .root_source_file = .{ .path = "src/main.zig" },
         .target = target,
         .optimize = optimize,
     });
-    // 👇 add the termsize module to executable
-    exe.addModule("termsize", termsize.module("termsize"));
++    // 👇 add the termsize module to executable
++    exe.addModule("termsize", termsize);
 
     b.installArtifact(exe);
 }
@@ -87,4 +95,4 @@ Does this look interesting but you're new to zig and feel left out? No problem, 
 - [ziglearn](https://ziglearn.org/)
 - [ziglings exercises](https://github.com/ratfactor/ziglings)
 
-\- softprops 2023
+\- softprops 2024

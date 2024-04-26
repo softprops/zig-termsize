@@ -17,8 +17,7 @@ pub fn build(b: *std.Build) !void {
 
     // create a module to be used internally.
     const termsize_module = b.createModule(.{
-        // fixme(0.12): .source_file -> root_source_file
-        .source_file = .{ .path = "src/main.zig" },
+        .root_source_file = b.path("src/main.zig"),
     });
 
     // register the module so it can be referenced
@@ -28,7 +27,7 @@ pub fn build(b: *std.Build) !void {
     // Creates a step for unit testing. This only builds the test executable
     // but does not run it.
     const main_tests = b.addTest(.{
-        .root_source_file = .{ .path = "src/main.zig" },
+        .root_source_file = b.path("src/main.zig"),
         .target = target,
         .optimize = optimize,
     });
@@ -70,12 +69,11 @@ pub fn build(b: *std.Build) !void {
 
         var exe = b.addExecutable(.{
             .name = example.name,
-            .root_source_file = .{ .path = example.src },
+            .root_source_file = b.path(example.src),
             .target = target,
             .optimize = optimize,
         });
-        // fixme(0.12): addModule -> root_module.addImport(name, mod)
-        exe.addModule("termsize", termsize_module);
+        exe.root_module.addImport("termsize", termsize_module);
 
         // run the artifact - depending on the example exe
         const example_run = b.addRunArtifact(exe);

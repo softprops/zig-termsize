@@ -45,11 +45,11 @@ pub fn termSize(file: std.fs.File) !?TermSize {
             };
         },
         .linux, .macos => blk: {
-            var buf: os.system.winsize = undefined;
-            break :blk switch (os.system.getErrno(
-                os.system.ioctl(
+            var buf: std.posix.system.winsize = undefined;
+            break :blk switch (std.posix.errno(
+                std.posix.system.ioctl(
                     file.handle,
-                    os.system.T.IOCGWINSZ,
+                    std.posix.T.IOCGWINSZ,
                     @intFromPtr(&buf),
                 ),
             )) {
@@ -65,5 +65,5 @@ pub fn termSize(file: std.fs.File) !?TermSize {
 }
 
 test "termSize" {
-    std.debug.print("{any}", .{termSize(std.io.getStdOut())});
+    std.debug.print("termsize {any}", .{termSize(std.io.getStdOut())});
 }
