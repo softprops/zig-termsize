@@ -21,7 +21,10 @@ const std = @import("std");
 const termsize = @import("termsize");
 
 pub fn main() !void {
-    std.debug.println("{any}", .{ termsize.termSize(std.io.getStdOut()) });
+    std.debug.print(
+        "{any}",
+        .{termsize.termSize(std.io.getStdOut())},
+    );
 }
 ```
 
@@ -80,7 +83,7 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
 +    // 👇 add the termsize module to executable
-+    exe.addModule("termsize", termsize);
++    exe.root_module.addImport("termsize", termsize);
 
     b.installArtifact(exe);
 }
