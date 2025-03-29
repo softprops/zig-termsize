@@ -54,8 +54,8 @@ pub fn termSize(file: std.fs.File) !?TermSize {
                 ),
             )) {
                 .SUCCESS => TermSize{
-                    .width = buf.ws_col,
-                    .height = buf.ws_row,
+                    .width = buf.col,
+                    .height = buf.row,
                 },
                 else => error.IoctlError,
             };
