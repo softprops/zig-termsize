@@ -45,7 +45,7 @@ pub fn termSize(file: std.fs.File) !?TermSize {
             };
         },
         .linux, .macos => blk: {
-            var buf: std.posix.system.winsize = undefined;
+            var buf: std.posix.winsize = undefined;
             break :blk switch (std.posix.errno(
                 std.posix.system.ioctl(
                     file.handle,
@@ -54,8 +54,8 @@ pub fn termSize(file: std.fs.File) !?TermSize {
                 ),
             )) {
                 .SUCCESS => TermSize{
-                    .width = buf.ws_col,
-                    .height = buf.ws_row,
+                    .width = buf.col,
+                    .height = buf.row,
                 },
                 else => error.IoctlError,
             };
