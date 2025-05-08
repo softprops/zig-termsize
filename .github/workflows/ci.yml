@@ -13,8 +13,7 @@ jobs:
           - windows-latest
           - macos-latest
         zig-version:
-          - 0.12.0
-          - 0.13.0
+          - 0.14.0
     runs-on: ${{ matrix.os }}
     permissions:
       contents: write
